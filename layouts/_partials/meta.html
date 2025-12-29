@@ -1,0 +1,24 @@
+{{- $config := site.Params.settings.hideEntryMeta | default (slice "page") -}}
+{{- $configType := printf "%T" $config -}}
+{{- $show := true -}}
+
+{{- if eq $configType "bool" -}}
+  {{- $show = not $config -}}
+{{- else if $config -}}
+  {{- $show = not (in $config .Section) -}}
+{{- end -}}
+
+{{- if $show }}
+  {{- $dateFormat := site.Params.settings.dateFormat | default "2006, Jan 02" -}}
+  <div class="entry-meta">
+    <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format $dateFormat }}</time>
+    {{- if and site.Params.settings.showReadingTime (gt .ReadingTime 0) }}
+      <span class="meta-divider">·</span>
+      <span>{{ printf "%d min read" .ReadingTime }}</span>
+    {{- end }}
+    {{- if and site.Params.settings.showLastmod (ne .Lastmod .Date) }}
+      <span class="meta-divider">·</span>
+      <time datetime="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Lastmod.Format $dateFormat }}</time>
+    {{- end }}
+  </div>
+{{- end }}

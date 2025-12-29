@@ -1,0 +1,20 @@
+{{- $p := .Paginator -}}
+{{- if and $p (gt $p.TotalPages 1) }}
+  <nav class="pagination" aria-label="分页">
+    {{ with $p.Prev }}
+      <a class="page-link prev" href="{{ .URL }}">上一页</a>
+    {{ end }}
+
+    {{ range $p.Pagers }}
+      {{ if eq . $p }}
+        <span class="page-link active">{{ .PageNumber }}</span>
+      {{ else }}
+        <a class="page-link" href="{{ .URL }}">{{ .PageNumber }}</a>
+      {{ end }}
+    {{ end }}
+
+    {{ with $p.Next }}
+      <a class="page-link next" href="{{ .URL }}">下一页</a>
+    {{ end }}
+  </nav>
+{{- end }}

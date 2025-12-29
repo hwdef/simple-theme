@@ -1,2 +1,17 @@
-<h1>{{ site.Title }}</h1>
-{{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+<header class="site-header">
+  <div class="container top-bar">
+    {{ if not site.Params.settings.hideMainMenu }}
+      {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+    {{ end }}
+  </div>
+
+  {{ if .IsHome }}
+    <div class="container home-wrap site-hero">
+      <h1 class="hero-title">{{ site.Title }}</h1>
+      {{ with site.Params.info.description }}
+        <p class="hero-desc">{{ . }}</p>
+      {{ end }}
+      <span class="accent-line hero-line" aria-hidden="true"></span>
+    </div>
+  {{ end }}
+</header>

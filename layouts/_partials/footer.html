@@ -1,1 +1,47 @@
-<p>Copyright {{ now.Year }}. All rights reserved.</p>
+<footer class="site-footer">
+  <div class="container">
+    {{- $social := site.Params.social -}}
+    {{- $footerWidgets := site.Params.widgets.footer -}}
+    {{- $showSocial := or (eq (len $footerWidgets) 0) (in $footerWidgets "social_menu") -}}
+    {{- if and $social $showSocial }}
+      {{- $bases := dict
+        "email" "mailto:"
+        "github" "https://github.com/"
+        "instagram" "https://instagram.com/"
+        "telegram" "https://t.me/"
+      -}}
+      {{- $order := slice "email" "github" "instagram" "telegram" -}}
+      <div class="social-links">
+        {{- range $order }}
+          {{- $handle := index $social . -}}
+          {{- $base := index $bases . -}}
+          {{- if and $handle $base }}
+            <a href="{{ (printf "%s%s" $base $handle) | safeURL }}" aria-label="{{ . | title }}">
+              {{- partial "icon.html" . -}}
+            </a>
+          {{- end }}
+        {{- end }}
+      </div>
+    {{- end }}
+
+    <div class="copyright">
+      {{- if site.Copyright }}
+        <p>{{ site.Copyright }}</p>
+      {{- else -}}
+        {{- with site.Params.copyright }}
+          {{- $year := now.Year -}}
+          {{- $start := cond (and .startYear (lt (int .startYear) $year)) (int .startYear) 0 -}}
+          {{- $holder := or .holder site.Title -}}
+          <p>
+            {{- with .prefix }}{{ . }} {{ end -}}
+            &copy;
+            {{- if gt $start 0 }} {{ $start }}–{{ end }}{{ $year }} {{ $holder }}
+            {{- with .suffix }} {{ . }}{{ end -}}
+          </p>
+        {{- else }}
+          <p>&copy; {{ now.Year }} {{ site.Title }}</p>
+        {{- end -}}
+      {{- end }}
+    </div>
+  </div>
+</footer>

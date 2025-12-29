@@ -3,15 +3,17 @@
 <head>
   {{ partial "head.html" . }}
 </head>
-<body>
-  <header>
+<body class="{{ .Kind }}{{ with .Section }} section-{{ . }}{{ end }}">
+  <div class="site">
     {{ partial "header.html" . }}
-  </header>
-  <main>
-    {{ block "main" . }}{{ end }}
-  </main>
-  <footer>
+
+    <main id="content" class="content-area">
+      {{ block "main" . }}{{ end }}
+    </main>
+
     {{ partial "footer.html" . }}
-  </footer>
+  </div>
+
+  {{ partial "head/js.html" . }}
 </body>
 </html>

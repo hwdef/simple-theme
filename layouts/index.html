@@ -1,0 +1,23 @@
+{{ define "main" }}
+  <div class="container home-wrap">
+    {{ with .Content }}
+      <div class="entry-content" style="grid-column: 1 / -1;">
+        {{ . }}
+      </div>
+    {{ end }}
+
+    {{- $homeWidgets := site.Params.widgets.homepage -}}
+    {{- $showRecent := or (eq (len $homeWidgets) 0) (in $homeWidgets "recent_posts") -}}
+    {{- $posts := where site.RegularPages "Type" "post" -}}
+    {{- if and $showRecent (gt (len $posts) 0) }}
+      <h2 class="section-title">最近文章</h2>
+      <ul class="post-list">
+        {{- $format := site.Params.settings.listDateFormat | default "2006, Jan 02" -}}
+        {{- range first 5 $posts }}
+          {{- partial "post-list-item.html" (dict "Page" . "DateFormat" $format) -}}
+        {{- end }}
+      </ul>
+      <span class="accent-line posts-line" aria-hidden="true"></span>
+    {{- end }}
+  </div>
+{{ end }}

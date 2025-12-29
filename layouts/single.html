@@ -1,0 +1,16 @@
+{{ define "main" }}
+  <article class="entry container">
+    <header class="entry-header">
+      <h1 class="entry-title">{{ .Title }}</h1>
+      {{ partial "meta.html" . }}
+    </header>
+
+    <div class="entry-content">
+      {{ .Content }}
+    </div>
+
+    {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+
+    {{ partial "entry-nav.html" . }}
+  </article>
+{{ end }}

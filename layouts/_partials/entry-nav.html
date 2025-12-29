@@ -1,0 +1,20 @@
+{{- $config := site.Params.settings.hideEntryNavigation -}}
+{{- $configType := printf "%T" $config -}}
+{{- $show := true -}}
+
+{{- if eq $configType "bool" -}}
+  {{- $show = not $config -}}
+{{- else if $config -}}
+  {{- $show = not (in $config .Section) -}}
+{{- end -}}
+
+{{- if and $show (gt (len (where site.RegularPages "Section" .Section)) 1) }}
+  <nav class="entry-nav">
+    {{ with .PrevInSection }}
+      <a class="nav-link prev" href="{{ .RelPermalink }}">← {{ .Title }}</a>
+    {{ end }}
+    {{ with .NextInSection }}
+      <a class="nav-link next" href="{{ .RelPermalink }}">{{ .Title }} →</a>
+    {{ end }}
+  </nav>
+{{- end }}

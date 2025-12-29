@@ -1,0 +1,6 @@
+{{- $page := .Page -}}
+{{- $format := .DateFormat | default "2006, Jan 02" -}}
+<li class="post-list-item">
+  <time class="post-date" datetime="{{ $page.Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ $page.Date.Format $format }}</time>
+  <a class="post-link" href="{{ $page.RelPermalink }}">{{ $page.Title }}</a>
+</li>

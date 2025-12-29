@@ -1,5 +1,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
+{{ with site.Params.info.description }}
+  <meta name="description" content="{{ . }}">
+{{ end }}
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
-{{ partialCached "head/css.html" . }}
-{{ partialCached "head/js.html" . }}
+{{ with site.Params.assets.favicon }}
+  <link rel="icon" href="{{ . | relURL }}">
+{{ end }}
+<style>:root{--accent: {{ default "#ffcd00" site.Params.settings.accentColor }};}</style>
+{{ partial "head/css.html" . }}
+{{ range site.Params.assets.customCSS }}
+  <link rel="stylesheet" href="{{ . | relURL }}">
+{{ end }}
